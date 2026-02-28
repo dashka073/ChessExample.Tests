@@ -1,4 +1,4 @@
-﻿namespace ChessExample.Tests;
+namespace ChessExample.Tests;
 
 public class CheckerTests
 {
@@ -26,6 +26,7 @@ public class CheckerTests
     [Theory]
     [InlineData(2,6)]
     [InlineData(1,3)]
+    [InlineData(8,8)]
     public void Position_PassValid(byte x, byte y)
     {
         //Act
@@ -39,14 +40,21 @@ public class CheckerTests
     [Theory]
     [InlineData(9,10)]
     [InlineData(1,16)]
+    [InlineData(11,6)]
     public void Position_PassError(byte x, byte y)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() => new CheckerBoardPosition(x, y));
     }
 
     [Theory]
-    [InlineData(1,'A')]
-    [InlineData(2,'B')]
+    [InlineData(1, 'A')]
+    [InlineData(2, 'B')]
+    [InlineData(3, 'C')]
+    [InlineData(4, 'D')]
+    [InlineData(5, 'E')]
+    [InlineData(6, 'F')]
+    [InlineData(7, 'G')]
+    [InlineData(8, 'H')]
     public void XLetters_PassValid(byte x, char symb)
     {
         //Arrange
@@ -89,7 +97,11 @@ public class CheckerTests
 
     [Theory]
     [InlineData(null)]
-    [InlineData("00")]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("A11")]
+    [InlineData("AA")]              
+    [InlineData("11")]
     public void Parse_PassError(string input)
     {
         var exception = Assert.Throws<FormatException>(() => CheckerBoardPosition.Parse(input, null));
@@ -98,6 +110,7 @@ public class CheckerTests
     [Theory]
     [InlineData("B3", 2, 3)]
     [InlineData("D1", 4, 1)]
+    [InlineData("E5", 5, 5)]
     public void TryParse_PassValid(string input, byte x, byte y)
     {
         //Act
@@ -112,7 +125,11 @@ public class CheckerTests
 
     [Theory]
     [InlineData(null)]
+    [InlineData("")]
     [InlineData(" ")]
+    [InlineData("A11")]
+    [InlineData("AA")]
+    [InlineData("11")]
     public void TryParse_PassError(string input)
     {
         // Act
